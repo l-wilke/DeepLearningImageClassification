@@ -1,0 +1,177 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fmodern\fcharset0 Courier-Bold;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red15\green112\blue1;\red245\green245\blue245;\red38\green38\blue38;
+\red0\green0\blue255;\red83\green83\blue83;\red151\green0\blue255;\red169\green14\blue26;}
+{\*\expandedcolortbl;;\cssrgb\c0\c50196\c0;\cssrgb\c96863\c96863\c96863;\cssrgb\c20000\c20000\c20000;
+\cssrgb\c0\c0\c100000;\cssrgb\c40000\c40000\c40000;\cssrgb\c66667\c13333\c100000;\cssrgb\c72941\c12941\c12941;}
+\margl1440\margr1440\vieww20620\viewh14240\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+import
+\f1\b0 \cf4  
+\f0\b \cf5 numpy
+\f1\b0 \cf4  
+\f0\b \cf2 as
+\f1\b0 \cf4  
+\f0\b \cf5 np
+\f1\b0 \cf4 \
+
+\f0\b \cf2 import
+\f1\b0 \cf4  
+\f0\b \cf5 matplotlib.pyplot
+\f1\b0 \cf4  
+\f0\b \cf2 as
+\f1\b0 \cf4  
+\f0\b \cf5 plt
+\f1\b0 \cf4 \
+
+\f0\b \cf2 import
+\f1\b0 \cf4  
+\f0\b \cf5 numpy
+\f1\b0 \cf4  
+\f0\b \cf2 as
+\f1\b0 \cf4  
+\f0\b \cf5 np
+\f1\b0 \cf4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 %\cf4 matplotlib inline\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 import
+\f1\b0 \cf4  
+\f0\b \cf5 pylab
+\f1\b0 \cf4 \
+
+\f0\b \cf2 import
+\f1\b0 \cf4  
+\f0\b \cf5 skimage
+\f1\b0 \cf4 \
+
+\f0\b \cf2 from
+\f1\b0 \cf4  
+\f0\b \cf5 skimage
+\f1\b0 \cf4  
+\f0\b \cf2 import
+\f1\b0 \cf4  measure,feature\
+
+\f0\b \cf2 import
+\f1\b0 \cf4  
+\f0\b \cf5 math\
+\
+
+\f1\b0 \cf4 im\cf6 =\cf4 np\cf6 .\cf4 load(image)
+\f0\b \cf5 \
+def find_contours\
+
+\f1\b0 \cf4 dict_contour_count\cf6 =\cf4 \{\}\
+
+\f0\b \cf2 for
+\f1\b0 \cf4  i 
+\f0\b \cf7 \cb3 in
+\f1\b0 \cf4 \cb3  \cf2 \cb3 range\cf4 \cb3 (total_image):\
+    result \cf6 =\cf4  im[i][:, :, \cf6 0\cf4 ]\
+    contours \cf6 =\cf4  measure\cf6 .\cf4 find_contours(result, \cf6 0.1\cf4 )\
+    contours_created \cf6 =\cf4  skimage\cf6 .\cf4 measure\cf6 .\cf4 find_contours(result, \cf6 0.1\cf4 )\
+    dict_contour_count[i]\cf6 =\cf2 \cb3 len\cf4 \cb3 (contours_created)\
+\
+\
+\
+#more than 1 contour\
+images_with_more\cf6 =\cf4  ([i 
+\f0\b \cf2 for
+\f1\b0 \cf4  i 
+\f0\b \cf7 \cb3 in
+\f1\b0 \cf4 \cb3  dict_contour_count 
+\f0\b \cf2 if
+\f1\b0 \cf4  dict_contour_count[i] \cf6 >\cf4  \cf6 1\cf4 ])\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 print\cf4 \cb3 (\cf8 \cb3 '#of labels with more than 1 contour:::'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (\cf2 \cb3 len\cf4 \cb3 (images_with_more)))\
+\
+\
+\
+#Canny outline\
+plt\cf6 .\cf4 imshow(feature\cf6 .\cf4 canny(image))\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 def
+\f1\b0 \cf4  \cf5 \cb3 clean_contours\cf4 \cb3 (image):\
+    plt\cf6 .\cf4 figure(figsize\cf6 =\cf4 (\cf6 10\cf4 ,\cf6 10\cf4 ))    \
+    plt\cf6 .\cf4 subplot(\cf6 221\cf4 ),plt\cf6 .\cf4 imshow(image,)\
+    plt\cf6 .\cf4 title(\cf8 \cb3 'orig Image'\cf4 \cb3 )\
+    plt\cf6 .\cf4 subplot(\cf6 222\cf4 ),plt\cf6 .\cf4 imshow(feature\cf6 .\cf4 canny(image))\
+    plt\cf6 .\cf4 title(\cf8 \cb3 'orig contour edges'\cf4 \cb3 )\
+    dict_shape\cf6 =\cf4 \{\}\
+    t_im1\cf6 =\cf4 image\
+    cntrs\cf6 =\cf4 skimage\cf6 .\cf4 measure\cf6 .\cf4 find_contours(t_im1,\cf6 0.1\cf4 )\
+    \cf2 \cb3 print\cf4 \cb3 (\cf8 \cb3 '# of contours identified:::'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (\cf2 \cb3 len\cf4 \cb3 (cntrs)))\
+    
+\f0\b \cf2 for
+\f1\b0 \cf4  i 
+\f0\b \cf7 \cb3 in
+\f1\b0 \cf4 \cb3  \cf2 \cb3 range\cf4 \cb3 (\cf2 \cb3 len\cf4 \cb3 (cntrs)):\
+        \cf2 \cb3 print\cf4 \cb3  (\cf8 \cb3 'contour:'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (i)\cf6 +\cf8 \cb3 '  shape[0]:'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (cntrs[i]\cf6 .\cf4 shape[\cf6 0\cf4 ]))\
+        dict_shape[i]\cf6 =\cf4 cntrs[i]\cf6 .\cf4 shape[\cf6 0\cf4 ]\
+    \cf2 \cb3 print\cf4 \cb3 (dict_shape)\
+    
+\f0\b \cf2 del
+\f1\b0 \cf4  dict_shape[\cf2 \cb3 max\cf4 \cb3 (dict_shape, key\cf6 =\cf4 dict_shape\cf6 .\cf4 get)]\
+    \cf2 \cb3 print\cf4 \cb3 (dict_shape)\
+    
+\f0\b \cf2 for
+\f1\b0 \cf4  k 
+\f0\b \cf7 \cb3 in
+\f1\b0 \cf4 \cb3  dict_shape:\
+        \cf2 \cb3 print\cf4 \cb3  (\cf8 \cb3 'deleting contour '\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (k))\
+        x1\cf6 =\cf4 math\cf6 .\cf4 trunc(np\cf6 .\cf4 min(cntrs[k],axis\cf6 =0\cf4 )[\cf6 0\cf4 ])\
+        y1\cf6 =\cf4 math\cf6 .\cf4 trunc(np\cf6 .\cf4 min(cntrs[k],axis\cf6 =0\cf4 )[\cf6 1\cf4 ])\
+        \cf2 \cb3 print\cf4 \cb3 (x1)\
+        \cf2 \cb3 print\cf4 \cb3 (y1)\
+        x2\cf6 =\cf4 math\cf6 .\cf4 trunc(np\cf6 .\cf4 max(cntrs[k],axis\cf6 =0\cf4 )[\cf6 0\cf4 ])\
+        y2\cf6 =\cf4 math\cf6 .\cf4 trunc(np\cf6 .\cf4 max(cntrs[k],axis\cf6 =0\cf4 )[\cf6 1\cf4 ])\
+        \cf2 \cb3 print\cf4 \cb3 (x2)\
+        \cf2 \cb3 print\cf4 \cb3 (y2)\
+        t_im1[x1:x2\cf6 +1\cf4 , y1:y2\cf6 +1\cf4 ]\cf6 =0\cf4 \
+        \
+    plt\cf6 .\cf4 subplot(\cf6 223\cf4 ),plt\cf6 .\cf4 imshow(t_im1)\
+    plt\cf6 .\cf4 title(\cf8 \cb3 'Fixed Image'\cf4 \cb3 )\
+    plt\cf6 .\cf4 subplot(\cf6 224\cf4 ),plt\cf6 .\cf4 imshow(feature\cf6 .\cf4 canny(t_im1))\
+    plt\cf6 .\cf4 title(\cf8 \cb3 'Fixed contour edges'\cf4 \cb3 )\
+\
+\
+\
+\
+#Drawing MBB on ROI\
+
+\f0\b \cf2 def
+\f1\b0 \cf4  \cf5 \cb3 apply_label\cf4 \cb3 (label,image):\
+    a\cf6 =\cf4 np\cf6 .\cf4 where(label\cf6 ==1\cf4 )\
+    row1\cf6 =\cf2 \cb3 min\cf4 \cb3 (a[\cf6 0\cf4 ])\
+    row2\cf6 =\cf2 \cb3 max\cf4 \cb3 (a[\cf6 0\cf4 ])\
+    col1\cf6 =\cf2 \cb3 min\cf4 \cb3 (a[\cf6 1\cf4 ])\
+    col2\cf6 =\cf2 \cb3 max\cf4 \cb3 (a[\cf6 1\cf4 ])\
+    \cf2 \cb3 print\cf4 \cb3  (\cf2 \cb3 str\cf4 \cb3 (row1)\cf6 +\cf8 \cb3 ':'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (row2)\cf6 +\cf8 \cb3 ' ,  '\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (col1)\cf6 +\cf8 \cb3 ':'\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (col2))\
+    sub_image\cf6 =\cf4 image[row1:row2,col1:col2]\
+    Emin\cf6 =\cf4 np\cf6 .\cf4 min(sub_image)\
+    Emax\cf6 =\cf4 np\cf6 .\cf4 max(sub_image)\
+    \cf2 \cb3 print\cf4 \cb3 (\cf8 \cb3 'Emin: '\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (Emin))\
+    \cf2 \cb3 print\cf4 \cb3 (\cf8 \cb3 'Emax: '\cf6 \cb3 +\cf2 \cb3 str\cf4 \cb3 (Emax))\
+    image\cf6 =\cf4 (image\cf6 -\cf4 Emin)\cf6 /\cf4 (Emax\cf6 -\cf4 Emin)\
+    image[\cf6 0\cf4 :row1]\cf6 =0\cf4 \
+    image[row2:]\cf6 =0\cf4 \
+    image[:,:col1]\cf6 =0\cf4 \
+    image[:,col2:]\cf6 =0\cf4     \
+    plt\cf6 .\cf4 figure(figsize\cf6 =\cf4 (\cf6 10\cf4 ,\cf6 10\cf4 ))  \
+    \cf2 \cb3 print\cf4 \cb3 (\cf8 \cb3 'Verifying the needed image is selected'\cf4 \cb3 )\
+    plt\cf6 .\cf4 subplot(\cf6 221\cf4 ),plt\cf6 .\cf4 imshow(image)\
+    plt\cf6 .\cf4 subplot(\cf6 222\cf4 ),plt\cf6 .\cf4 imshow(label)\
+    
+\f0\b \cf2 return
+\f1\b0 \cf4  image\
+\
+https://github.com/mas-dse-joh112/heartsmart/blob/master/Final/acdc_data_analysis/Filter_fill.ipynb\
+\
+\
+}
