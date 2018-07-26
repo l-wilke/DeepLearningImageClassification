@@ -43,12 +43,11 @@ for layer in resnet.layers[:-4]:
 for layer in resnet.layers:
     print (layer, layer.trainable)
 
-base_size = 197
-
-height = 28
-width = 28
 
 def resize(res):
+    base_size = 197
+    height, width = res.shape
+
     if height < base_size:
         diff = base_size - height
         extend_top = diff // 2
